@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guzzo Educação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* =====================================================
+   VARIÁVEIS — edite aqui para mudar cores globalmente
+   ===================================================== */
+:root {
+  --green:      #2BBAB4;
+  --deep:       #0F5E5A;
+  --deeper:     #0a3d3a;
+  --light:      #FAFCFB;
+  --muted:      #e8f4f3;
+  --text:       #1a2e2d;
+  --gray:       #6b7f7e;
+  --border:     #d0e8e6;
+  --font-serif: 'DM Serif Display', serif;
+  --font-sans:  'DM Sans', sans-serif;
+  --font-mono:  'DM Mono', monospace;
+  --radius:     10px;
+  --shadow:     0 4px 24px rgba(15,94,90,.10);
+  --shadow-lg:  0 12px 48px rgba(15,94,90,.16);
+}
+
+/* =====================================================
+   RESET
+   ===================================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  background: var(--light);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 15px;
+}
+img { max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: var(--font-sans); }
+
+/* =====================================================
+   UTILITÁRIOS
+   ===================================================== */
+.container { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+.tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: var(--muted);
+  color: var(--deep);
+  border: 1px solid var(--border);
+}
+.tag.pdf    { background: #eaf6ff; border-color: #b3d9f5; color: #1a5a80; }
+.tag.video  { background: #fff4ea; border-color: #f5c99a; color: #804a1a; }
+.tag.texto  { background: #f5eaff; border-color: #d4a8f5; color: #5a1a80; }
+.tag.anki   { background: #f0faf0; border-color: #a8d8a8; color: #1a6020; }
+
+/* =====================================================
+   HEADER / NAV
+   ===================================================== */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,252,251,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--deep);
+  letter-spacing: -.01em;
+}
+.logo-icon {
+  width: 36px; height: 36px;
+  background: var(--green);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.nav-links {
+  display: flex; gap: 28px; list-style: none;
+  font-size: 14px; font-weight: 500;
+  color: var(--gray);
+}
+.nav-links a:hover { color: var(--deep); }
+.nav-cta {
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 9px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background .2s;
+}
+.nav-cta:hover { background: var(--deep); }
+
+/* =====================================================
+   HERO
+   ===================================================== */
+.hero {
+  padding: 88px 0 72px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -120px;
+  width: 560px; height: 560px;
+  background: radial-gradient(circle, rgba(43,186,180,.13) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 18px;
+}
+.hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  line-height: 1.1;
+  color: var(--deeper);
+  max-width: 720px;
+  margin-bottom: 22px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--green);
+}
+.hero p {
+  font-size: 1.05rem;
+  color: var(--gray);
+  max-width: 520px;
+  margin-bottom: 36px;
+  line-height: 1.75;
+}
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--deep);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 13px 28px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background .2s, transform .15s;
+}
+.btn-primary:hover { background: var(--green); transform: translateY(-1px); }
+.btn-outline {
+  background: transparent;
+  color: var(--deep);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 13px 28px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: border-color .2s, color .2s;
+}
+.btn-outline:hover { border-color: var(--green); color: var(--green); }
+
+/* =====================================================
+   STATS BAR
+   ===================================================== */
+.stats-bar {
+  background: var(--deep);
+  color: #fff;
+  padding: 28px 0;
+}
+.stats-inner {
+  display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px;
+  text-align: center;
+}
+.stat-num {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  color: var(--green);
+  display: block;
+}
+.stat-label {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+}
+
+/* =====================================================
+   SEÇÃO DE MATERIAIS
+   ===================================================== */
+.section { padding: 72px 0; }
+.section-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 40px; flex-wrap: wrap; gap: 16px;
+}
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  color: var(--deeper);
+  line-height: 1.15;
+}
+.section-title span { color: var(--green); }
+
+/* =====================================================
+   FILTROS DE DISCIPLINA
+   ===================================================== */
+.filters {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 36px;
+}
+.filter-btn {
+  border: 1.5px solid var(--border);
+  background: #fff;
+  color: var(--gray);
+  border-radius: 30px;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all .18s;
+}
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+
+/* =====================================================
+   GRID DE MATERIAIS
+   ===================================================== */
+.materials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+.card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  transition: box-shadow .2s, transform .2s;
+  display: flex; flex-direction: column; gap: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--green);
+  opacity: 0;
+  transition: opacity .2s;
+}
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+.card:hover::before { opacity: 1; }
+.card-meta { display: flex; align-items: center; justify-content: space-between; }
+.card-discipline {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--gray);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.card h3 {
+  font-family: var(--font-serif);
+  font-size: 1.12rem;
+  color: var(--deeper);
+  line-height: 1.3;
+}
+.card p {
+  font-size: 13.5px;
+  color: var(--gray);
+  line-height: 1.6;
+  flex: 1;
+}
+.card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid var(--muted);
+}
+.card-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green);
+  display: flex; align-items: center; gap: 5px;
+  transition: gap .15s;
+}
+.card-link:hover { gap: 9px; }
+.card[data-hidden="true"] { display: none; }
+
+/* =====================================================
+   SOBRE
+   ===================================================== */
+.about-section {
+  background: var(--deeper);
+  color: #fff;
+  padding: 80px 0;
+}
+.about-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.about-text h2 {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+.about-text h2 em { color: var(--green); font-style: italic; }
+.about-text p {
+  color: rgba(255,255,255,.7);
+  line-height: 1.8;
+  margin-bottom: 16px;
+  font-size: 15px;
+}
+.about-img-block {
+  background: var(--deep);
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,.08);
+}
+.about-logo-big {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  color: var(--green);
+  margin-bottom: 12px;
+}
+.about-tagline {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+}
+
+/* =====================================================
+   CONTATO
+   ===================================================== */
+.contact-section { padding: 80px 0; background: var(--muted); }
+.contact-inner {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 56px;
+  align-items: start;
+}
+.contact-info h2 {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  color: var(--deeper);
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+.contact-info p {
+  color: var(--gray);
+  line-height: 1.75;
+  margin-bottom: 28px;
+}
+.contact-item {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 14px;
+  font-size: 14px;
+  color: var(--deep);
+  font-weight: 500;
+}
+.contact-icon {
+  width: 36px; height: 36px;
+  background: var(--green);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.contact-form {
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--deep);
+  letter-spacing: .02em;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 11px 14px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text);
+  background: var(--light);
+  transition: border-color .18s, box-shadow .18s;
+  outline: none;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(43,186,180,.12);
+}
+.form-group textarea { resize: vertical; min-height: 110px; }
+.btn-submit {
+  width: 100%;
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  transition: background .2s;
+}
+.btn-submit:hover { background: var(--deep); }
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 24px;
+  color: var(--deep);
+  font-size: 15px;
+}
+.form-success .success-icon { font-size: 2.5rem; margin-bottom: 10px; }
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+footer {
+  background: #0a2e2c;
+  color: rgba(255,255,255,.55);
+  padding: 36px 0;
+  text-align: center;
+  font-size: 13px;
+}
+footer a { color: var(--green); }
+footer strong { color: rgba(255,255,255,.85); }
+
+/* =====================================================
+   RESPONSIVO
+   ===================================================== */
+@media (max-width: 768px) {
+  .about-inner, .contact-inner { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .hero h1 { font-size: 2.2rem; }
+}
+
+/* =====================================================
+   ANIMAÇÕES DE ENTRADA
+   ===================================================== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- ====================================================
+     ✏️  DADOS EDITÁVEIS
+     Edite este objeto JS para atualizar todo o conteúdo
+     do site sem mexer no HTML.
+     ==================================================== -->
+<script>
+const SITE = {
+
+  /* --- INFORMAÇÕES GERAIS --- */
+  nome:     "Guzzo Educação",
+  subtitulo: "Material pré-vestibular de alto nível",
+  descricao: "Aulas, apostilas, slides e flashcards organizados por disciplina — do cursinho ao vestibular.",
+  contato: {
+    email:     "otavio@guzzoeducacao.com.br",
+    instagram: "@guzzoeducacao",
+    youtube:   "youtube.com/@guzzoeducacao"
+  },
+
+  /* --- STATS DA HERO BAR --- */
+  stats: [
+    { num: "180+", label: "Aulas produzidas" },
+    { num: "9",    label: "Disciplinas" },
+    { num: "500+", label: "Flashcards" },
+    { num: "3",    label: "Plataformas" }
+  ],
+
+  /* --- SOBRE --- */
+  sobre: {
+    titulo: "Educação que<br><em>pensa junto</em> com você",
+    paragrafos: [
+      "Sou Otávio, médico em formação pela FCMSCSP e educador há anos no pré-vestibular. Aqui você encontra material produzido com rigor acadêmico e cuidado pedagógico.",
+      "Cada aula parte de uma pergunta genuína. Cada apostila tenta aprofundar, não apenas cobrir o conteúdo. A metodologia vem da filosofia, da medicina e da experiência real em sala."
+    ]
+  },
+
+  /* --- MATERIAIS ---
+     tipos possíveis: "pdf" | "video" | "texto" | "anki"
+     disciplina: deve coincidir com um item em "disciplinas"
+     link: URL do material (PDF, YouTube, Notion, Anki, etc.)
+  --- */
+  disciplinas: [
+    "Biologia",
+    "Matemática",
+    "Filosofia",
+    "História",
+    "Química",
+    "Física",
+    "Redação"
+  ],
+
+  materiais: [
+    {
+      disciplina: "Biologia",
+      titulo:     "Fungi — Características Gerais e Ciclos de Vida",
+      descricao:  "Slides Beamer completos cobrindo morfologia, reprodução e importância ecológica dos fungos.",
+      tipo:       "pdf",
+      link:       "#"
+    },
+    {
+      disciplina: "Biologia",
+      titulo:     "Algas e Plantas — Evolução e Adaptação",
+      descricao:  "Comparação filogenética entre algas e briófitas, pteridófitas, gimnospermas e angiospermas.",
+      tipo:       "pdf",
+      link:       "#"
+    },
+    {
+      disciplina: "Biologia",
+      titulo:     "Flashcards — Botânica (Anki)",
+      descricao:  "Deck completo para revisão ativa: morfologia foliar, tropismo, fotossíntese e respiração.",
+      tipo:       "anki",
+      link:       "#"
+    },
+    {
+      disciplina: "Matemática",
+      titulo:     "Funções Quadráticas — Lição 1 a 4",
+      descricao:  "Apostila progressiva: da definição de parábola à resolução de inequações do 2º grau.",
+      tipo:       "texto",
+      link:       "#"
+    },
+    {
+      disciplina: "Matemática",
+      titulo:     "Números Decimais — Vídeoaula",
+      descricao:  "Aula completa com exercícios resolvidos. Ênfase em representação e operações.",
+      tipo:       "video",
+      link:       "https://www.youtube.com"
+    },
+    {
+      disciplina: "Filosofia",
+      titulo:     "Husserl e a Fenomenologia — Aula Completa",
+      descricao:  "Introdução à redução fenomenológica, intencionalidade e as Investigações Lógicas.",
+      tipo:       "pdf",
+      link:       "#"
+    },
+    {
+      disciplina: "Filosofia",
+      titulo:     "Heidegger — Ser e Tempo (Divisão I)",
+      descricao:  "Slides com paginação SZ. Cobre Dasein, Sorge, ser-no-mundo e temporalidade.",
+      tipo:       "pdf",
+      link:       "#"
+    },
+    {
+      disciplina: "Filosofia",
+      titulo:     "Schopenhauer — A Vontade como Mundo",
+      descricao:  "Vídeoaula introdutória: representação, Vontade e o problema da redenção.",
+      tipo:       "video",
+      link:       "https://www.youtube.com"
+    },
+    {
+      disciplina: "Filosofia",
+      titulo:     "Lógica Aristotélica — Flashcards",
+      descricao:  "Deck Anki: silogismo, modos e figuras, leis do pensamento, categorias.",
+      tipo:       "anki",
+      link:       "#"
+    },
+    {
+      disciplina: "Redação",
+      titulo:     "Estrutura da Dissertação-Argumentativa",
+      descricao:  "Apostila de introdução, desenvolvimento e conclusão com exemplos comentados do ENEM.",
+      tipo:       "texto",
+      link:       "#"
+    }
+  ]
+
+}; // fim SITE
+</script>
+
+<!-- ====================================================
+     HEADER
+     ==================================================== -->
+<header>
+  <nav class="container">
+    <div class="logo">
+      <div class="logo-icon">🎓</div>
+      <span id="site-nome"></span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#materiais">Materiais</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+    <button class="nav-cta" onclick="document.getElementById('contato').scrollIntoView({behavior:'smooth'})">
+      Fale comigo
+    </button>
+  </nav>
+</header>
+
+<!-- ====================================================
+     HERO
+     ==================================================== -->
+<section class="hero">
+  <div class="container">
+    <p class="hero-eyebrow" id="hero-eyebrow"></p>
+    <h1 id="hero-h1"></h1>
+    <p id="hero-p"></p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('materiais').scrollIntoView({behavior:'smooth'})">
+        Ver materiais →
+      </button>
+      <button class="btn-outline" onclick="document.getElementById('sobre').scrollIntoView({behavior:'smooth'})">
+        Sobre o projeto
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     STATS BAR
+     ==================================================== -->
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-inner" id="stats-inner"></div>
+  </div>
+</div>
+
+<!-- ====================================================
+     MATERIAIS
+     ==================================================== -->
+<section class="section" id="materiais">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Materiais por <span>disciplina</span></h2>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="materials-grid" id="materials-grid"></div>
+  </div>
+</section>
+
+<!-- ====================================================
+     SOBRE
+     ==================================================== -->
+<section class="about-section" id="sobre">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-text">
+        <h2 id="sobre-titulo"></h2>
+        <div id="sobre-paragrafos"></div>
+      </div>
+      <div class="about-img-block">
+        <div class="about-logo-big">🎓</div>
+        <div style="font-family:var(--font-serif);font-size:1.5rem;color:#fff;margin-bottom:8px;" id="about-nome"></div>
+        <div class="about-tagline" id="about-tagline"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     CONTATO
+     ==================================================== -->
+<section class="contact-section" id="contato">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-info fade-in">
+        <h2>Vamos <em style="font-style:italic;color:var(--green)">conversar?</em></h2>
+        <p>Dúvidas sobre o material, parceria educacional ou só um olá — respondo por aqui.</p>
+        <div class="contact-item"><div class="contact-icon">✉️</div><span id="c-email"></span></div>
+        <div class="contact-item"><div class="contact-icon">📸</div><span id="c-insta"></span></div>
+        <div class="contact-item"><div class="contact-icon">▶️</div><span id="c-yt"></span></div>
+      </div>
+      <div class="contact-form fade-in">
+        <form id="contact-form" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nome</label>
+              <input type="text" placeholder="Seu nome" required>
+            </div>
+            <div class="form-group">
+              <label>E-mail</label>
+              <input type="email" placeholder="email@exemplo.com" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Assunto</label>
+            <select>
+              <option>Dúvida sobre material</option>
+              <option>Parceria educacional</option>
+              <option>Aula particular</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Mensagem</label>
+            <textarea placeholder="Escreva aqui..." required></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Enviar mensagem →</button>
+        </form>
+        <div class="form-success" id="form-success">
+          <div class="success-icon">✅</div>
+          <strong>Mensagem enviada!</strong><br>
+          Responderei em breve.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================
+     FOOTER
+     ==================================================== -->
+<footer>
+  <div class="container">
+    <p>© <span id="year"></span> <strong id="footer-nome"></strong> — Todos os direitos reservados.</p>
+    <p style="margin-top:6px;font-size:12px;">Material produzido com rigor acadêmico para pré-vestibular.</p>
+  </div>
+</footer>
+
+<!-- ====================================================
+     SCRIPT: renderização + filtros + form + animações
+     ==================================================== -->
+<script>
+/* --- RENDERIZAÇÃO --- */
+
+// Header
+document.getElementById('site-nome').textContent = SITE.nome;
+
+// Hero
+document.getElementById('hero-eyebrow').textContent = SITE.subtitulo;
+document.getElementById('hero-h1').innerHTML =
+  SITE.nome.replace('Guzzo', '<em>Guzzo</em>');
+document.getElementById('hero-p').textContent = SITE.descricao;
+
+// Stats
+const statsInner = document.getElementById('stats-inner');
+SITE.stats.forEach(s => {
+  statsInner.innerHTML += `
+    <div>
+      <span class="stat-num">${s.num}</span>
+      <span class="stat-label">${s.label}</span>
+    </div>`;
+});
+
+// Filtros
+const filtersEl = document.getElementById('filters');
+const grid      = document.getElementById('materials-grid');
+
+// Botão "Todos"
+filtersEl.innerHTML = `<button class="filter-btn active" onclick="filtrar('todos', this)">Todos</button>`;
+SITE.disciplinas.forEach(d => {
+  filtersEl.innerHTML += `<button class="filter-btn" onclick="filtrar('${d}', this)">${d}</button>`;
+});
+
+// Cards
+SITE.materiais.forEach(m => {
+  const tagLabels = { pdf:'PDF', video:'Vídeo', texto:'Apostila', anki:'Anki' };
+  grid.innerHTML += `
+    <article class="card fade-in" data-disc="${m.disciplina}">
+      <div class="card-meta">
+        <span class="card-discipline">${m.disciplina}</span>
+        <span class="tag ${m.tipo}">${tagLabels[m.tipo] || m.tipo}</span>
+      </div>
+      <h3>${m.titulo}</h3>
+      <p>${m.descricao}</p>
+      <div class="card-footer">
+        <a class="card-link" href="${m.link}" target="_blank">Acessar material →</a>
+      </div>
+    </article>`;
+});
+
+// Sobre
+document.getElementById('sobre-titulo').innerHTML = SITE.sobre.titulo;
+document.getElementById('about-nome').textContent  = SITE.nome;
+document.getElementById('about-tagline').textContent = SITE.subtitulo.toUpperCase();
+const sobPar = document.getElementById('sobre-paragrafos');
+SITE.sobre.paragrafos.forEach(p => { sobPar.innerHTML += `<p>${p}</p>`; });
+
+// Contato
+document.getElementById('c-email').textContent = SITE.contato.email;
+document.getElementById('c-insta').textContent = SITE.contato.instagram;
+document.getElementById('c-yt').textContent    = SITE.contato.youtube;
+
+// Footer
+document.getElementById('year').textContent      = new Date().getFullYear();
+document.getElementById('footer-nome').textContent = SITE.nome;
+
+/* --- FILTROS --- */
+function filtrar(disc, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card').forEach(c => {
+    c.dataset.hidden = disc !== 'todos' && c.dataset.disc !== disc ? 'true' : 'false';
+  });
+}
+
+/* --- FORMULÁRIO --- */
+function handleSubmit(e) {
+  e.preventDefault();
+  document.getElementById('contact-form').style.display = 'none';
+  document.getElementById('form-success').style.display = 'block';
+}
+
+/* --- ANIMAÇÕES SCROLL --- */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
